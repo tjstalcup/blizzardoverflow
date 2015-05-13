@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html ng-app="contactListMgr">
+<head>
+	<title>Under Armour Assessment</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+</head>
+<body ng-controller="contactListCtrl">
+
+<h1>Contact List Manager - TJ's Club</h1>
+<div class="main">
+
+	<div id="filters"><label for="contactsPerPage">Contacts Per Page:</label> 
+		<select id="contactsPerPage" ng-model="contactsPerPage">
+			<option value="10">10</option>
+			<option value="20">20</option>
+			<option value="50">50</option>
+		</select>
+
+		<label for="filterByState">Filter By State:</label>
+		<select id="filterByState" ng-model="selectedState">
+			<option value=""></option>
+			<option ng-repeat="state in states" value="{{state}}">{{state}}</option>
+		</select>
+
+		<span id="searchName"><label for="searchBox">Search Name:</label>
+		<input type="text" ng-model="searchText" id="searchBox"/></span>
+	</div>
+
+	<div id="pagination">
+		<ul class='pagination'>
+			<li ng-repeat="i in getNumber(numberOfPages) track by $index">
+				<a ng-show="($index+1) == currentPage" href='#' class='active'>{{$index+1}}</a>
+				<a ng-show="($index+1) != currentPage" href='#' ng-click="newPage($index+1)">{{$index+1}}</a>
+			</li>
+		</ul>
+	</div>
+
+	<table id="contactList" cellpadding="5" cellspacing="0" border="0">
+		<thead>
+			<tr><th>First Name</th><th>Last Name</th><th>State</th></tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="contact in filteredContacts | limitTo:contactsPerPage" ng-click="setContact(contact)">
+				<td>{{contact.first_name}}</td>
+				<td>{{contact.last_name}}</td>
+				<td>{{contact.state}}</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div id="contactDetail" ng-show="selectedContact != ''">
+	  <div class='wrapper'>
+		<div class='close' ng-click='unsetContact()'>x</div>
+		<h2>{{selectedContact.first_name}} {{selectedContact.last_name}}</h2>
+		<p>{{selectedContact.address}}</p>
+		<p>{{selectedContact.city}}, {{selectedContact.state}}  {{selectedContact.zip}}</p>
+		<p>Phone: {{selectedContact.phone}}</p>
+		<p><a href='mailto:{{selectedContact.email}}'>{{selectedContact.email}}</a></p>
+		<p>Joined: {{selectedContact.join_date}}</p>
+	  </div>
+	</div>
+
+</div>
+
+<!-- <div class="debug">
+	<p>Contacts per page: {{contactsPerPage}}</p>
+	<p>Number of pages: {{numberOfPages}}</p>
+	<p>Current Page: {{currentPage}}</p>
+	<p>Selected State: {{selectedState}}</p>
+	<p>Selected Contact: {{selectedContact}}</p>
+	<p>Filtered Contacts: {{filteredContacts.length}}</p>
+	<p>States: {{states.length}}</p>
+	<pre ng-bind="states | json"></pre>
+	<pre ng-bind="contacts | json"></pre>
+</div> -->
+
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
