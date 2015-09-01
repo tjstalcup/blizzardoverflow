@@ -1,6 +1,7 @@
-angular.module('contactListMgr', [])
-	.controller('contactListCtrl', function($scope, $http) {
-		$http.get('sample-data.json').success(function(contacts){
+angular.module('blizzardOverflow', [])
+	.controller('blizzardOFctrl', function($scope, $http) {
+		$http.get('sample-data.json').success(function(data){
+			
 			$scope.contacts = contacts;
 			$scope.contactsPerPage = 10;
 			$scope.currentPage = 1;
